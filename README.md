@@ -39,7 +39,7 @@ Crie um arquivo chamado `.env` na raiz do projeto, copiando o conteúdo abaixo. 
 
 ```env
 # Variáveis de ambiente para o banco de dados PostgreSQL
-POST_GRES_USER=n8n
+POSTGRES_USER=n8n
 POSTGRES_PASSWORD=mysecretpassword
 POSTGRES_DB=n8n
 ```
