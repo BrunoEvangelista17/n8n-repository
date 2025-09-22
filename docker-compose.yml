@@ -47,6 +47,9 @@ services:
       # 2. Permite que o n8n "enxergue" a subpasta ".n8n/custom", onde o
       #    conector personalizado será compilado.
       - ./n8n-data:/home/node/.n8n
+      # Mapeia a pasta atual ('.') para uma pasta dentro de 'custom'.
+      # O n8n vai carregar seu conector diretamente daqui.
+      - .:/home/node/.n8n/custom/n8n-nodes-onfly-random
     depends_on:
       # Garante que o serviço do n8n só tentará iniciar DEPOIS
       # que o serviço do postgres estiver saudável e pronto.
