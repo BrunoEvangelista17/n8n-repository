@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Serviço do banco de dados PostgreSQL
+  postgres:
+    image: postgres:14 # Imagem oficial e estável do Postgres.
+    container_name: n8n_postgres
+    restart: always # Garante que o container reinicie em caso de falha.
+    environment:
+      # As variáveis de ambiente para configurar o banco de dados.
+      # É uma boa prática gerenciá-las através de um arquivo .env
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      # Mapeia um volume nomeado para persistir os dados do banco,
+      # mesmo que o container seja removido e recriado.
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      # Verifica se o banco de dados está pronto para aceitar conexões.
+      # O n8n esperará por isso antes de iniciar completamente.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Serviço da aplicação n8n
+  n8n:
+    image: n8nio/n8n:latest # Utiliza a imagem oficial mais recente do n8n.
+    container_name: n8n_app
+    restart: always
+    ports:
+      # Expõe a porta 5678 do container na porta 5678 da sua máquina local.
+      - "5678:5678"
+    environment:
+      # Configurações para o n8n se conectar ao banco de dados Postgres.
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres # O nome do serviço do banco de dados definido acima.
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      # Mapeia a pasta local ".n8n" para a pasta de dados do n8n dentro do container.
+      # Isso faz duas coisas importantes:
+      # 1. Persiste todos os workflows e credenciais localmente.
+      # 2. Permite que o n8n "enxergue" a subpasta ".n8n/custom", onde o
+      #    conector personalizado será compilado.
+      - ./n8n-data:/home/node/.n8n
+    depends_on:
+      # Garante que o serviço do n8n só tentará iniciar DEPOIS
+      # que o serviço do postgres estiver saudável e pronto.
+      postgres:
+        condition: service_healthy
+
+# Define os volumes nomeados utilizados nos serviços acima.
+volumes:
+  postgres-data:

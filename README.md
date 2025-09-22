@@ -1,48 +1,82 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# Desafio n8n Onfly"
 
-# n8n-nodes-starter
+Este repositório contém a solução para o desafio de desenvolvimento de um conector (custom node) para a plataforma de automação n8n. O conector, chamado **"Random"**, integra-se com a API pública do [Random.org](https://www.random.org/) para gerar números inteiros verdadeiramente aleatórios dentro de um intervalo especificado.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](https://n8n.io). It includes the node linter and other dependencies.
+O projeto foi desenvolvido seguindo as melhores práticas, utilizando Docker e Docker Compose para garantir um ambiente de desenvolvimento e teste consistente e de fácil configuração.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## Tecnologias Utilizadas
 
-If you would like your node to be available on n8n cloud you can also [submit your node for verification](https://docs.n8n.io/integrations/creating-nodes/deploy/submit-community-nodes/).
+  * **n8n:** Plataforma de automação de workflows.
+  * **Node.js & TypeScript:** Linguagem e ambiente para o desenvolvimento do conector.
+  * **Docker & Docker Compose:** Para orquestração dos contêineres da aplicação n8n e do banco de dados.
+  * **PostgreSQL:** Banco de dados para a instância do n8n.
 
-## Prerequisites
+## Pré-requisitos
 
-You need the following installed on your development machine:
+Antes de começar, garanta que você tenha as seguintes ferramentas instaladas em sua máquina:
 
-* [git](https://git-scm.com/downloads)
-* Node.js and npm. Minimum version Node 20. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  npm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+  * [Docker](https://www.docker.com/get-started/)
+  * [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Using this starter
+## 🚀 Como Executar o Projeto
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+Siga os passos abaixo para subir a infraestrutura completa (n8n + PostgreSQL) e ter o conector customizado pronto para uso.
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `npm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `npm run lint` to check for errors or `npm run lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+### 1\. Clone o Repositório
 
-## More information
+```bash
+git clone <url-do-seu-repositorio>
+cd <nome-da-pasta-do-projeto>
+```
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+### 2\. Crie o Arquivo de Variáveis de Ambiente
 
-## License
+O Docker Compose utiliza um arquivo `.env` para gerenciar as credenciais do banco de dados de forma segura. Crie um arquivo chamado `.env` na raiz do projeto, copiando o conteúdo abaixo:
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+```env
+# Variáveis de ambiente para o banco de dados PostgreSQL
+# O Docker Compose lerá este arquivo automaticamente.
+
+POSTGRES_USER=n8n
+POSTGRES_PASSWORD=mysecretpassword
+POSTGRES_DB=n8n
+```
+
+**Observação:** Por segurança, o arquivo `.env` já está incluído no `.gitignore` para não ser enviado ao repositório.
+
+### 3\. Inicie os Serviços
+
+Com o Docker em execução, execute o seguinte comando no terminal, a partir da raiz do projeto:
+
+```bash
+docker-compose up -d
+```
+
+Este comando irá baixar as imagens necessárias e iniciar os contêineres do n8n e do PostgreSQL em segundo plano (`-d`). O processo pode levar alguns minutos na primeira vez.
+
+### 4\. Verifique se Tudo Está Funcionando
+
+Aguarde cerca de um minuto para que os serviços iniciem completamente. Você pode verificar os logs com o comando:
+
+```bash
+docker-compose logs -f n8n
+```
+
+Quando vir uma mensagem como `Editor is now available on http://localhost:5678/`, a plataforma está pronta.
+
+## 🔑 Acesso ao n8n
+
+A instância do n8n estará disponível no seu navegador no seguinte endereço:
+
+  * **URL:** [http://localhost:5678](https://www.google.com/search?q=http://localhost:5678)
+
+Para facilitar a avaliação, um usuário de teste já foi criado durante a configuração inicial da instância. Utilize as seguintes credenciais para fazer login:
+
+| Campo     | Valor                       |
+| :-------- | :-------------------------- |
+| **Email** | `onflytestebruno@gmail.com` |
+| **Senha** | `TesteOnfly#2025`           |
+
+> **Nota:** Para fins deste desafio, as credenciais acima também são válidas para acessar a conta de e-mail `onflytestebruno@gmail.com` no Gmail, caso seja necessário acessar a conta.
+
+-----
