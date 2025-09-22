@@ -80,7 +80,7 @@ Aguarde cerca de um minuto para que os serviços iniciem completamente. Você po
 
 A instância do n8n estará disponível no seu navegador:
 
-  * **URL:** [http://localhost:5678](https://www.google.com/search?q=http://localhost:5678)
+  * **URL:** [http://localhost:5678](http:localhost:5678)
 
 Utilize as seguintes credenciais de teste para fazer login:
 
@@ -113,7 +113,7 @@ npm run lintfix
 
 Este é o teste principal para validar a funcionalidade do conector.
 
-1.  **Acesse o n8n** em [http://localhost:5678](https://www.google.com/search?q=http://localhost:5678).
+1.  **Acesse o n8n** em [http://localhost:5678](http:localhost:5678).
 2.  Clique em **"Create Workflow"** para criar uma nova automação.
 3.  Clique no botão `+` para adicionar um novo node.
 4.  Na barra de busca, pesquise por **"Random"**.
