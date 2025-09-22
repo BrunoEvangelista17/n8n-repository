@@ -1,9 +1,3 @@
-Com certeza\! Reunimos todas as informações e refinamos cada seção. Aqui está a versão completa e final do `README.md`, pronta para você colocar na raiz do seu projeto e entregá-lo.
-
-Este arquivo está estruturado para guiar o avaliador por todo o processo, desde a configuração até o teste final, cobrindo todos os critérios de avaliação solicitados.
-
------
-
 # Desafio n8n - Conector Customizado "Random.org"
 
 Este repositório contém a solução para o desafio de desenvolvimento de um conector (custom node) para a plataforma de automação n8n. O conector, chamado **"Random"**, integra-se com a API pública do [Random.org](https://www.random.org/) para gerar números inteiros verdadeiramente aleatórios dentro de um intervalo especificado.
